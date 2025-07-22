@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, View, FlatList} from 'react-native';
 import BookCard from './BookCard';
 
 
@@ -11,7 +11,7 @@ export default function HomeScreen() {
     fetch('http://192.168.0.143:8000/api/books/')
     .then(res => {
         if (!res.ok) {
-            throw new Error("Ошибка при получение данных: ", res.status)
+            throw new Error("Ошибка при получение списка книг: ", res.status)
         }
         return res.json()
     })
@@ -54,8 +54,6 @@ export default function HomeScreen() {
   );
 }
 
-const screenWidth = Dimensions.get('window').width;
-const cardWidth = (screenWidth - 48) / 2;
 
 const styles = StyleSheet.create({
   container: {
