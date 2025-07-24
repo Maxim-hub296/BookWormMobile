@@ -12,6 +12,7 @@ import {
     StatusBar,
     PanResponder
 } from 'react-native';
+import {useNavigation} from "@react-navigation/native";
 
 const {width} = Dimensions.get('window');
 const SIDEBAR_WIDTH = width * 0.75;
@@ -20,7 +21,9 @@ export default function Sidebar({isOpen, onClose}) {
     const [genres, setGenres] = useState([]);
     const [authors, setAuthors] = useState([]);
     const [years, setYears] = useState([]);
-    const translateX = useRef(new Animated.Value(-SIDEBAR_WIDTH)).current;
+    const translateX = useRef(new Animated.Value(SIDEBAR_WIDTH)).current;
+
+    const navigation = useNavigation()
 
     // Подгружаем данные один раз
     useEffect(() => {
@@ -95,20 +98,28 @@ export default function Sidebar({isOpen, onClose}) {
             <ScrollView contentContainerStyle={styles.scroll}>
                 <Text style={styles.section}>Жанры</Text>
                 {genres.map(g => (
-                    <TouchableOpacity key={g.slug} style={styles.item} onPress={() => console.log('Жанр:', g.name)}>
+                    <TouchableOpacity key={g.slug} style={styles.item}
+                                      onPress={() => {navigation.navigate('Genre', {genre: g.slug})
+                                      onClose()}}>
                         <Text style={styles.itemText}>{g.name}</Text>
                     </TouchableOpacity>
                 ))}
                 <Text style={styles.section}>Авторы</Text>
                 {authors.map(a => (
-                    <TouchableOpacity key={a.slug} style={styles.item} onPress={() => console.log('Автор:', a.name)}>
+                    <TouchableOpacity key={a.slug} style={styles.item} onPress={() => {
+                        console.log(a.slug)
+                        navigation.navigate('Author', {author: a.slug})
+                        onClose();
+                    }}>
                         <Text style={styles.itemText}>{a.name}</Text>
                     </TouchableOpacity>
                 ))}
                 <Text style={styles.section}>Годы</Text>
                 {years.map(y => (
                     <TouchableOpacity key={y.year.toString()} style={styles.item}
-                                      onPress={() => console.log('Год:', y.year)}>
+                                      onPress={() => {
+                                          navigation.navigate('Year', {year: y.year})
+                                      }}>
                         <Text style={styles.itemText}>{y.year}</Text>
                     </TouchableOpacity>
                 ))}

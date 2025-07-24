@@ -1,26 +1,38 @@
-import {StyleSheet, View} from 'react-native';
+import {StatusBar, StyleSheet, View} from 'react-native';
 import HomeScreen from './components/shop/HomeScreen';
 import Header from './components/shop/Header';
 import Sidebar from "./components/shop/Sidebar";
 import {useState} from "react";
+import {createNativeStackNavigator} from "react-native-screens/native-stack";
+import {NavigationContainer} from "@react-navigation/native";
+import GenreScreen from "./components/shop/GenreScreen";
+import AuthorScreen from "./components/shop/AuthorScreen";
+import YearScreen from "./components/shop/YearScreen";
+
+
+const Stack = createNativeStackNavigator()
 
 export default function App() {
-  const [isSideBarOpen, setSideBarOpen] = useState(false)
+    const [isSideBarOpen, setSideBarOpen] = useState(false)
 
 
     return (
-        <View style={styles.container}>
+        <NavigationContainer>
             <Header onFilterPress={() => setSideBarOpen(true)}/>
-            <HomeScreen/>
             <Sidebar isOpen={isSideBarOpen} onClose={() => setSideBarOpen(false)}/>
-
-        </View>
+            <StatusBar style={'auto'}/>
+            <Stack.Navigator initialRouteName={'Home'} screenOptions={{headerShown: false}}>
+                <Stack.Screen name={"Home"} component={HomeScreen}/>
+                <Stack.Screen name={'Genre'} component={GenreScreen}/>
+                <Stack.Screen name={'Author'} component={AuthorScreen}/>
+                <Stack.Screen name={'Year'} component={YearScreen}/>
+            </Stack.Navigator>
+        </NavigationContainer>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f8f4e3',
     },
 });
