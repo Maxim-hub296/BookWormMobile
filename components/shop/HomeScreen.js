@@ -2,10 +2,14 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, FlatList} from 'react-native';
 import BookCard from './BookCard';
+import {useNavigation} from "@react-navigation/native";
 
 
 export default function HomeScreen() {
   const [books, setBooks] = useState([])
+
+  const navigation = useNavigation()
+
 
   useEffect(() =>{
     fetch('http://192.168.0.143:8000/api/books/')
@@ -25,6 +29,7 @@ export default function HomeScreen() {
 
   const handlePress = (item) => {
     console.log(`Открыть книгу: ${item.title}`);
+    navigation.navigate('DetailBook', {book_id: item.id})
     // Здесь можно использовать навигацию, например: navigation.navigate('Details', { book: item })
   };
 

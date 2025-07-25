@@ -9,6 +9,7 @@ import GenreScreen from "./components/shop/GenreScreen";
 import AuthorScreen from "./components/shop/AuthorScreen";
 import YearScreen from "./components/shop/YearScreen";
 import SearchResultScreen from "./components/shop/SearchResultScreen";
+import BookDetailScreen from "./components/shop/BookDetailScreen";
 
 
 const Stack = createNativeStackNavigator()
@@ -28,6 +29,7 @@ export default function App() {
                 <Stack.Screen name={'Author'} component={AuthorScreen}/>
                 <Stack.Screen name={'Year'} component={YearScreen}/>
                 <Stack.Screen name={'Search'} component={SearchResultScreen} />
+                <Stack.Screen name={'DetailBook'} component={BookDetailScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );
