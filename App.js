@@ -8,6 +8,7 @@ import {NavigationContainer} from "@react-navigation/native";
 import GenreScreen from "./components/shop/GenreScreen";
 import AuthorScreen from "./components/shop/AuthorScreen";
 import YearScreen from "./components/shop/YearScreen";
+import SearchResultScreen from "./components/shop/SearchResultScreen";
 
 
 const Stack = createNativeStackNavigator()
@@ -26,6 +27,7 @@ export default function App() {
                 <Stack.Screen name={'Genre'} component={GenreScreen}/>
                 <Stack.Screen name={'Author'} component={AuthorScreen}/>
                 <Stack.Screen name={'Year'} component={YearScreen}/>
+                <Stack.Screen name={'Search'} component={SearchResultScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );
