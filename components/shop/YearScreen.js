@@ -2,10 +2,11 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, FlatList} from 'react-native';
 import BookCard from './BookCard';
+import {useNavigation} from "@react-navigation/native";
 
 export default function YearScreen({route}) {
   const [books, setBooks] = useState([])
-
+  const navigation = useNavigation()
   const {year} = route.params
 
   useEffect(() =>{
@@ -24,8 +25,9 @@ export default function YearScreen({route}) {
     })
   }, [year])
 
-  const handlePress = (item) => {
+ const handlePress = (item) => {
     console.log(`Открыть книгу: ${item.title}`);
+    navigation.navigate('DetailBook', {book_id: item.id})
     // Здесь можно использовать навигацию, например: navigation.navigate('Details', { book: item })
   };
 
