@@ -13,7 +13,7 @@ export default function AuthorScreen({route}) {
         fetch(`http://192.168.0.143:8000/api/author/${author}/`)
             .then(res => {
                 if (!res.ok) {
-                    throw new Error("Ошибка при получение списка книг: ", res.status)
+                    throw new Error(`Ошибка при получение списка книг: ${res.status}: ${res.statusText}`)
                 }
                 return res.json()
             })

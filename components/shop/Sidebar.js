@@ -57,7 +57,7 @@ export default function Sidebar({isOpen, onClose}) {
     const getGenres = () => {
         fetch('http://192.168.0.143:8000/api/genres/')
             .then(res => {
-                if (!res.ok) throw new Error("Ошибка при получении жанров: " + res.status);
+                if (!res.ok) throw new Error(`Ошибка при получении жанров:  ${res.status}: ${res.statusText}` );
                 return res.json();
             })
             .then(setGenres)
@@ -67,7 +67,7 @@ export default function Sidebar({isOpen, onClose}) {
     const getAuthors = () => {
         fetch('http://192.168.0.143:8000/api/authors/')
             .then(res => {
-                if (!res.ok) throw new Error("Ошибка при получении авторов: " + res.status);
+                if (!res.ok) throw new Error(`Ошибка при получении авторов:   ${res.status}: ${res.statusText}`);
                 return res.json();
             })
             .then(setAuthors)
@@ -77,7 +77,7 @@ export default function Sidebar({isOpen, onClose}) {
     const getYears = () => {
         fetch('http://192.168.0.143:8000/api/years/')
             .then(res => {
-                if (!res.ok) throw new Error("Ошибка при получении годов: " + res.status);
+                if (!res.ok) throw new Error(`Ошибка при получении годов:  ${res.status}: ${res.statusText}` );
                 return res.json();
             })
             .then(data => setYears(data))

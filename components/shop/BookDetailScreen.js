@@ -11,7 +11,7 @@ export default function BookDetailScreen({route}) {
         fetch(`http://192.168.0.143:8000/api/books/${book_id}`)
             .then(res => {
                 if (!res.ok) {
-                    throw new Error("Ошибка при получении данных о книге: ", res.status)
+                    throw new Error(`Ошибка при получении данных о книге: ${res.status}: ${res.statusText}`)
                 }
                 return res.json()
             })

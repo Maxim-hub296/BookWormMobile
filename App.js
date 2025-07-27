@@ -1,4 +1,4 @@
-import {StatusBar, StyleSheet, View} from 'react-native';
+import {StatusBar} from 'react-native';
 import HomeScreen from './components/shop/HomeScreen';
 import Header from './components/shop/Header';
 import Sidebar from "./components/shop/Sidebar";
@@ -10,7 +10,9 @@ import AuthorScreen from "./components/shop/AuthorScreen";
 import YearScreen from "./components/shop/YearScreen";
 import SearchResultScreen from "./components/shop/SearchResultScreen";
 import BookDetailScreen from "./components/shop/BookDetailScreen";
-
+import ProfileScreen from "./components/auth/ProfileScreen";
+import RegistrationScreen from "./components/auth/RegistrationScreen";
+import LoginScreen from "./components/auth/LoginScreen";
 
 const Stack = createNativeStackNavigator()
 
@@ -30,13 +32,11 @@ export default function App() {
                 <Stack.Screen name={'Year'} component={YearScreen}/>
                 <Stack.Screen name={'Search'} component={SearchResultScreen} />
                 <Stack.Screen name={'DetailBook'} component={BookDetailScreen} />
+                <Stack.Screen name={'Profile'} component={ProfileScreen} />
+                <Stack.Screen name={'Registration'} component={RegistrationScreen} />
+                <Stack.Screen name={'Login'} component={LoginScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-});
