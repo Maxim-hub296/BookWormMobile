@@ -29,7 +29,7 @@ export default function ProfileScreen() {
             }
 
             const res = await fetch('http://192.168.0.143:8000/api/logout/', {
-                method: 'POST', // Обычно logout требует POST
+                method: 'POST',
                 headers: {
                     'Authorization': `Token ${token}`
                 }

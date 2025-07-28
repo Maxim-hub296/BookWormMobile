@@ -1,11 +1,43 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Dimensions, Button} from 'react-native';
+import {useNavigation} from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {Alert} from "react-native";
 
 export default function BookDetailScreen({route}) {
-    // Пока хардкод, позже сюда будут приходить данные из route.params
+    const navigation = useNavigation()
+
 
     const {book_id} = route.params
     const [bookData, setBookData] = useState([])
+    const [authData, setAuthData] = useState({
+        is_authenticated: false,
+        username: ''
+    })
+    const onPublish = () => {
+
+        if (authData.is_authenticated) {
+            navigation.navigate('AddCommentary', {book_id: book_id})
+
+        } else {
+            Alert.alert('Ошибка авторизации', "Пожалуйста, войдите в профиль, чтобы добавить комментарий",
+                [
+                    {
+                        text: 'Отмена',
+                        style: 'cancel'
+                    },
+                    {
+                        text: 'Войти',
+                        onPress: () => navigation.navigate('Login'),
+                    },
+                ],
+                {cancelable: true}
+            )
+        }
+
+
+
+    }
 
     useEffect(() => {
         fetch(`http://192.168.0.143:8000/api/books/${book_id}`)
@@ -21,7 +53,32 @@ export default function BookDetailScreen({route}) {
             .catch(error => {
                 console.error("Ошибка: ", error)
             })
+        const checkAuth = async () => {
+            const token = await AsyncStorage.getItem('authToken');
+            if (!token) {
+                return; // нет токена — пользователь не авторизован
+            }
 
+            fetch('http://192.168.0.143:8000/api/auth-status/', {
+                headers: {
+                    'Authorization': `Token ${token}`
+                }
+            })
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error(`Ошибка: ${res.status}: ${res.statusText}`);
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    setAuthData(data);
+                })
+                .catch(error => {
+                    console.error(`Ошибка: ${error}`);
+                });
+        };
+
+        checkAuth();
     }, []);
 
 
@@ -41,12 +98,30 @@ export default function BookDetailScreen({route}) {
                 <TouchableOpacity style={styles.buyButton}>
                     <Text style={styles.buyButtonText}>Добавить в корзину</Text>
                 </TouchableOpacity>
+
+                <View style={styles.commentsContainer}>
+                    <Text style={styles.commentsTitle}>Комментарии</Text>
+
+                    {bookData.comments && bookData.comments.length > 0 ? (
+                        bookData.comments.map((comment, index) => (
+                            <View key={index} style={styles.comment}>
+                                <Text style={styles.commentUser}>{comment.user}</Text>
+                                <Text style={styles.commentText}>{comment.content}</Text>
+                            </View>
+                        ))
+                    ) : (
+                        <Text style={styles.noComments}>Нет комментариев</Text>
+                    )}
+                    <Button title={'Добавить комментарий'} onPress={onPublish}/>
+                </View>
+
+
             </View>
         </ScrollView>
     );
 }
 
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 const COVER_WIDTH = width * 0.9;     // 90% ширины экрана
 const COVER_ASPECT = 2 / 3;
 
@@ -114,5 +189,42 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 16,
         fontWeight: 'bold',
+    },
+    commentsContainer: {
+        paddingHorizontal: 16,
+        marginBottom: 30,
+    },
+
+    commentsTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 12,
+        color: '#4b3e2b',
+    },
+
+    comment: {
+        backgroundColor: '#fff',
+        padding: 12,
+        borderRadius: 8,
+        marginBottom: 10,
+        borderWidth: 1,
+        borderColor: '#dcd2c0',
+    },
+
+    commentUser: {
+        fontWeight: 'bold',
+        color: '#4b3e2b',
+        marginBottom: 4,
+    },
+
+    commentText: {
+        fontSize: 16,
+        color: '#2e2e2e',
+    },
+
+    noComments: {
+        fontSize: 16,
+        color: '#6e6e6e',
+        fontStyle: 'italic',
     },
 });

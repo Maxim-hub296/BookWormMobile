@@ -13,6 +13,7 @@ import BookDetailScreen from "./components/shop/BookDetailScreen";
 import ProfileScreen from "./components/auth/ProfileScreen";
 import RegistrationScreen from "./components/auth/RegistrationScreen";
 import LoginScreen from "./components/auth/LoginScreen";
+import AddCommentaryScreen from "./components/shop/AddCommentary";
 
 const Stack = createNativeStackNavigator()
 
@@ -35,6 +36,7 @@ export default function App() {
                 <Stack.Screen name={'Profile'} component={ProfileScreen} />
                 <Stack.Screen name={'Registration'} component={RegistrationScreen} />
                 <Stack.Screen name={'Login'} component={LoginScreen} />
+                <Stack.Screen name={'AddCommentary'} component={AddCommentaryScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );
