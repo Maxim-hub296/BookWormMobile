@@ -3,10 +3,11 @@ import {View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Dimensions,
 import {useNavigation} from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Alert} from "react-native";
+import InputSpinner from "react-native-input-spinner";
 
 export default function BookDetailScreen({route}) {
     const navigation = useNavigation()
-
+    const [count, setCount] = useState(1)
 
     const {book_id} = route.params
     const [bookData, setBookData] = useState([])
@@ -34,7 +35,6 @@ export default function BookDetailScreen({route}) {
                 {cancelable: true}
             )
         }
-
 
 
     }
@@ -94,6 +94,26 @@ export default function BookDetailScreen({route}) {
                 <Text style={styles.year}>Год издания: {bookData.year}</Text>
                 <Text style={styles.description}>{bookData.description}</Text>
                 <Text style={styles.price}>Цена: {bookData.price}</Text>
+                <View style={styles.counterContainer}>
+                    <TouchableOpacity
+                        style={styles.counterButton}
+                        onPress={() => setCount(prev => Math.max(1, prev - 1))}
+                    >
+                        <Text style={styles.counterButtonText}>−</Text>
+                    </TouchableOpacity>
+
+                    <View style={styles.counterValueWrapper}>
+                        <Text style={styles.counterValueText}>{count}</Text>
+                    </View>
+
+                    <TouchableOpacity
+                        style={styles.counterButton}
+                        onPress={() => setCount(prev => prev + 1)}
+                    >
+                        <Text style={styles.counterButtonText}>+</Text>
+                    </TouchableOpacity>
+                </View>
+
 
                 <TouchableOpacity style={styles.buyButton}>
                     <Text style={styles.buyButtonText}>Добавить в корзину</Text>
@@ -227,4 +247,40 @@ const styles = StyleSheet.create({
         color: '#6e6e6e',
         fontStyle: 'italic',
     },
+    counterContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 24,      // пространство до кнопки
+    },
+    counterButton: {
+        backgroundColor: '#9e6b3f',
+        width: 36,
+        height: 36,
+        borderRadius: 18,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    counterButtonText: {
+        color: '#fff',
+        fontSize: 24,
+        lineHeight: 24,
+    },
+    counterValueWrapper: {
+        backgroundColor: '#fdf6e3',
+        marginHorizontal: 16,
+        paddingHorizontal: 20,
+        paddingVertical: 8,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: '#e0d9c4',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    counterValueText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#4b3e2b',
+    },
+
 });
