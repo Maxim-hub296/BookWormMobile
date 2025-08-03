@@ -68,27 +68,35 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#f8f5e4', // старая бумага
         paddingHorizontal: 30,
         paddingVertical: 50,
         justifyContent: 'center',
     },
     title: {
         fontSize: 26,
-        fontWeight: 'bold',
+        fontWeight: '600',
         marginBottom: 30,
         textAlign: 'center',
-        color: '#333',
+        color: '#3e2f1c', // винтажный текст
+        fontFamily: 'serif',
     },
     input: {
         borderWidth: 1,
-        borderColor: '#bbb',
-        borderRadius: 8,
-        padding: 10,
+        borderColor: '#a67c52', // теплый коричневый
+        borderRadius: 6,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
         marginBottom: 20,
         fontSize: 16,
+        backgroundColor: '#fffaf0', // слегка желтоватый фон
+        color: '#3e2f1c',
+        fontFamily: 'serif',
     },
     buttonContainer: {
         marginTop: 10,
+        backgroundColor: '#a67c52',
+        borderRadius: 6,
+        overflow: 'hidden',
     },
 });

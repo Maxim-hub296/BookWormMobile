@@ -57,14 +57,19 @@ export default function ProfileScreen() {
     useEffect(() => {
         const checkAuth = async () => {
             const token = await AsyncStorage.getItem('authToken');
-            if (!token) {
-                return; // нет токена — пользователь не авторизован
+
+            const headers = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            };
+
+            if (token) {
+                headers['Authorization'] = `Token ${token}`;
             }
 
             fetch('http://192.168.0.143:8000/api/auth-status/', {
-                headers: {
-                    'Authorization': `Token ${token}`
-                }
+                method: 'GET',
+                headers: headers
             })
                 .then(res => {
                     if (!res.ok) {
@@ -73,7 +78,7 @@ export default function ProfileScreen() {
                     return res.json();
                 })
                 .then(data => {
-                    setAuthData(data);
+                    setAuthData(data); // например: { is_authenticated: true, username: "admin" }
                 })
                 .catch(error => {
                     console.error(`Ошибка: ${error}`);
@@ -114,35 +119,42 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingHorizontal: 30,
-        paddingVertical: 50,
+        backgroundColor: '#f8f5e4', // фон как у книжной страницы
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fff',
+        paddingHorizontal: 20,
     },
     header: {
-        fontSize: 24,
+        fontSize: 26,
         marginBottom: 30,
-        fontWeight: 'bold',
+        fontWeight: '600',
+        color: '#3e2f1c', // тёмно-коричневый
+        fontFamily: 'serif',
     },
     welcomeText: {
         fontSize: 22,
-        fontWeight: 'bold',
-        color: '#333',
+        fontWeight: '500',
+        color: '#3e2f1c',
+        marginBottom: 20,
+        fontFamily: 'serif',
     },
     buttonContainer: {
         width: '80%',
         marginVertical: 10,
+        borderRadius: 6,
+        overflow: 'hidden',
     },
     logoutButton: {
-    backgroundColor: '#e53935',
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-    borderRadius: 8,
-  },
-  logoutButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
+        backgroundColor: '#a67c52',
+        paddingVertical: 12,
+        paddingHorizontal: 40,
+        borderRadius: 6,
+        marginTop: 20,
+    },
+    logoutButtonText: {
+        color: '#fffaf0',
+        fontSize: 16,
+        fontWeight: 'bold',
+        fontFamily: 'serif',
+    },
 });
