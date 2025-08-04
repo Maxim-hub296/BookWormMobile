@@ -38,7 +38,7 @@ export default function HomeScreen() {
   }
 
   const renderItem = ({ item }) => (
-    <BookCard 
+    <BookCard
     book={item}
     onPress={() => handlePress(item)}
     onAddToCart={() => addToCart(item)}/>

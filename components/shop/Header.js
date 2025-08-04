@@ -5,7 +5,7 @@ import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from "@react-navigation/native";
 import SearchOverlay from "./Search";
 
-export default function Header({onFilterPress, onCartPress }) {
+export default function Header({onFilterPress}) {
     const navigation = useNavigation()
     const [showSearch, setShowSearch] = useState(false)
     return (
@@ -24,7 +24,7 @@ export default function Header({onFilterPress, onCartPress }) {
                     <TouchableOpacity onPress={onFilterPress} style={styles.iconButton}>
                         <Ionicons name="filter" size={24} color="#4b3e2b"/>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={onCartPress} style={styles.iconButton}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Cart')} style={styles.iconButton}>
                         <Ionicons name="cart" size={24} color="#9e6b3f"/>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.iconButton} onPress={() => {
