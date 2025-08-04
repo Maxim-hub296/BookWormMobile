@@ -1,9 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Dimensions, Button} from 'react-native';
+import {
+    View,
+    Text,
+    StyleSheet,
+    Image,
+    ScrollView,
+    TouchableOpacity,
+    Dimensions,
+    Button,
+    ToastAndroid
+} from 'react-native';
 import {useNavigation} from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Alert} from "react-native";
-import InputSpinner from "react-native-input-spinner";
 
 export default function BookDetailScreen({route}) {
     const navigation = useNavigation()
@@ -15,6 +24,49 @@ export default function BookDetailScreen({route}) {
         is_authenticated: false,
         username: ''
     })
+
+    const addToCart = async () => {
+        const token = await AsyncStorage.getItem('authToken')
+
+        const headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        }
+
+        const body = {
+            'book_id': book_id,
+            'quantity': count,
+        }
+
+        if (!token) {
+            Alert.alert("Ошибка авторизации", "Для добавления в корзину нужно войти, иначе как мы поймем кому в корзину добавлять книгу? :)",
+                [
+                    {
+                        text: 'Отмена',
+                        style: 'cancel'
+                    },
+                    {
+                        text: "Войти",
+                        onPress: () => navigation.navigate('Login')
+                    }
+                ])
+        } else {
+            headers['Authorization'] = `Token ${token}`
+        }
+
+        fetch("http://192.168.0.143:8000/api/cart-add/", {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(body)
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`Ошибка добавления в корзину: ${res.status}`)
+                } ToastAndroid.show(`Товар в количестве ${count}} добавлен в корзину`)
+            })
+    }
+
+
     const onPublish = () => {
 
         if (authData.is_authenticated) {
@@ -115,7 +167,7 @@ export default function BookDetailScreen({route}) {
                 </View>
 
 
-                <TouchableOpacity style={styles.buyButton}>
+                <TouchableOpacity style={styles.buyButton} onPress={addToCart}>
                     <Text style={styles.buyButtonText}>Добавить в корзину</Text>
                 </TouchableOpacity>
 
