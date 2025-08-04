@@ -160,11 +160,14 @@ export default function CartScreen() {
                         <Text style={styles.detail}>Год: {item.book.year}</Text>
                         <Text style={styles.detail}>Количество: {item.quantity}</Text>
                         <Text style={styles.detail}>Цена за 1: {item.book.price}₽</Text>
-                        <Text style={styles.total}>Итого: {item.total_price}₽</Text>
+                        <View style={styles.totalRow}>
+                            <Text style={styles.total}>Итого: {item.total_price}₽</Text>
+                            <TouchableOpacity style={styles.deleteButton} onPress={() => removeFromCart(item.book.id)}>
+                                <Ionicons name={'trash-outline'} size={20} color={"#a33"}/>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                    <TouchableOpacity style={styles.deleteButton} onPress={() => removeFromCart(item.book.id)}>
-                        <Ionicons name={'trash-outline'} size={22} color={"#a33"}/>
-                    </TouchableOpacity>
+
                 </View>
             ))}
 
@@ -273,16 +276,18 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
     },
+    totalRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: 6,
+    },
     deleteButton: {
-        position: 'absolute',
-        right: 8,
-        top: '40%',
         backgroundColor: '#ffe6e6',
         padding: 6,
         borderRadius: 20,
         elevation: 2,
     },
-
 });
 
 
