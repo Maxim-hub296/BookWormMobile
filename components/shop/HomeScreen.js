@@ -13,7 +13,7 @@ export default function HomeScreen() {
 
 
     useEffect(() => {
-        fetch('http://192.168.0.143:8000/api/books/')
+        fetch('https://bookworm.pythonanywhere.com/api/books/')
             .then(res => {
                 if (!res.ok) {
                     throw new Error(`Ошибка при получение списка книг:  ${res.status}: ${res.statusText}`)
@@ -35,6 +35,7 @@ export default function HomeScreen() {
     };
 
     const addToCart = async (item) => {
+        console.log('Нажата')
         const token = await AsyncStorage.getItem('authToken')
 
         const headers = {
@@ -60,20 +61,23 @@ export default function HomeScreen() {
                     }
                 ])
         } else  {
+            console.log("Токен есть")
             headers['Authorization'] = `Token ${token}`
         }
 
-        fetch("http://192.168.0.143:8000/api/cart-add/", {
+        fetch("https://bookworm.pythonanywhere.com/api/cart-add/", {
             method: 'POST',
             headers: headers,
             body: JSON.stringify(body)
         })
 
             .then(res => {
+                console.log(res)
             if (!res.ok) {
                 throw new Error(`Ошибка добавления в корзину: ${res.status}`)
             } ToastAndroid.show('Товар добавлен в корзину', ToastAndroid.SHORT)
         })
+
 
     }
 

@@ -55,7 +55,7 @@ export default function Sidebar({isOpen, onClose}) {
     ).current;
 
     const getGenres = () => {
-        fetch('http://192.168.0.143:8000/api/genres/')
+        fetch('https://bookworm.pythonanywhere.com/api/genres/')
             .then(res => {
                 if (!res.ok) throw new Error(`Ошибка при получении жанров:  ${res.status}: ${res.statusText}` );
                 return res.json();
@@ -65,7 +65,7 @@ export default function Sidebar({isOpen, onClose}) {
     };
 
     const getAuthors = () => {
-        fetch('http://192.168.0.143:8000/api/authors/')
+        fetch('https://bookworm.pythonanywhere.com/api/authors/')
             .then(res => {
                 if (!res.ok) throw new Error(`Ошибка при получении авторов:   ${res.status}: ${res.statusText}`);
                 return res.json();
@@ -75,7 +75,7 @@ export default function Sidebar({isOpen, onClose}) {
     };
 
     const getYears = () => {
-        fetch('http://192.168.0.143:8000/api/years/')
+        fetch('https://bookworm.pythonanywhere.com/api/years/')
             .then(res => {
                 if (!res.ok) throw new Error(`Ошибка при получении годов:  ${res.status}: ${res.statusText}` );
                 return res.json();

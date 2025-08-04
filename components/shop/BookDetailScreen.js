@@ -54,7 +54,7 @@ export default function BookDetailScreen({route}) {
             headers['Authorization'] = `Token ${token}`
         }
 
-        fetch("http://192.168.0.143:8000/api/cart-add/", {
+        fetch("https://bookworm.pythonanywhere.com/api/cart-add/", {
             method: 'POST',
             headers: headers,
             body: JSON.stringify(body)
@@ -62,7 +62,7 @@ export default function BookDetailScreen({route}) {
             .then(res => {
                 if (!res.ok) {
                     throw new Error(`Ошибка добавления в корзину: ${res.status}`)
-                } ToastAndroid.show(`Товар в количестве ${count}} добавлен в корзину`)
+                } ToastAndroid.show(`Товар добавлен в корзину`, ToastAndroid.SHORT)
             })
     }
 
@@ -92,7 +92,7 @@ export default function BookDetailScreen({route}) {
     }
 
     useEffect(() => {
-        fetch(`http://192.168.0.143:8000/api/books/${book_id}`)
+        fetch(`https://bookworm.pythonanywhere.com/api/books/${book_id}`)
             .then(res => {
                 if (!res.ok) {
                     throw new Error(`Ошибка при получении данных о книге: ${res.status}: ${res.statusText}`)
@@ -111,7 +111,7 @@ export default function BookDetailScreen({route}) {
                 return; // нет токена — пользователь не авторизован
             }
 
-            fetch('http://192.168.0.143:8000/api/auth-status/', {
+            fetch('https://bookworm.pythonanywhere.com/api/auth-status/', {
                 headers: {
                     'Authorization': `Token ${token}`
                 }

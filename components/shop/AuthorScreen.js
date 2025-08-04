@@ -10,7 +10,7 @@ export default function AuthorScreen({route}) {
     const {author} = route.params
 
     useEffect(() => {
-        fetch(`http://192.168.0.143:8000/api/author/${author}/`)
+        fetch(`https://bookworm.pythonanywhere.com/api/author/${author}/`)
             .then(res => {
                 if (!res.ok) {
                     throw new Error(`Ошибка при получение списка книг: ${res.status}: ${res.statusText}`)

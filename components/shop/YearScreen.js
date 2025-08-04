@@ -10,7 +10,7 @@ export default function YearScreen({route}) {
   const {year} = route.params
 
   useEffect(() =>{
-    fetch(`http://192.168.0.143:8000/api/year/${year}/`)
+    fetch(`https://bookworm.pythonanywhere.com/api/year/${year}/`)
     .then(res => {
         if (!res.ok) {
             throw new Error(`Ошибка при получение списка книг:  ${res.status}: ${res.statusText}`)

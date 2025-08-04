@@ -15,7 +15,7 @@ export default function LoginScreen() {
     };
 
     const login = () => {
-        fetch('http://192.168.0.143:8000/api/login/', {
+        fetch('https://bookworm.pythonanywhere.com/api/login/', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data)

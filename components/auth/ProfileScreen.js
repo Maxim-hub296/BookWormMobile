@@ -28,7 +28,7 @@ export default function ProfileScreen() {
                 return;
             }
 
-            const res = await fetch('http://192.168.0.143:8000/api/logout/', {
+            const res = await fetch('https://bookworm.pythonanywhere.com/api/logout/', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Token ${token}`
@@ -67,14 +67,12 @@ export default function ProfileScreen() {
                 headers['Authorization'] = `Token ${token}`;
             }
 
-            fetch('http://192.168.0.143:8000/api/auth-status/', {
+            fetch('https://bookworm.pythonanywhere.com/api/auth-status/', {
                 method: 'GET',
                 headers: headers
             })
                 .then(res => {
-                    if (!res.ok) {
-                        throw new Error(`Ошибка: ${res.status}: ${res.statusText}`);
-                    }
+
                     return res.json();
                 })
                 .then(data => {

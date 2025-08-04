@@ -11,7 +11,7 @@ export default function SearchResultScreen({route}) {
     const {search_query} = route.params
 
     useEffect(() => {
-        fetch(`http://192.168.0.143:8000/api/search/?q=${search_query}`)
+        fetch(`https://bookworm.pythonanywhere.com/api/search/?q=${search_query}`)
             .then(res => {
                 if (!res.ok) {
                     throw new Error(`Ошибка при получение списка книг:  ${res.status}: ${res.statusText} `)

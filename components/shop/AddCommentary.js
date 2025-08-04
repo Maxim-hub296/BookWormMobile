@@ -14,7 +14,7 @@ export default function AddCommentaryScreen({route}) {
         try {
             const token = await AsyncStorage.getItem('authToken')
 
-            fetch('http://192.168.0.143:8000/api/add-comment/', {
+            fetch('https://bookworm.pythonanywhere.com/api/add-comment/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

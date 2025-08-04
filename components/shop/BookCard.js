@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {View, Text, Image, TouchableOpacity, StyleSheet, Dimensions} from 'react-native';
-import InputSpinner from "react-native-input-spinner";
 
 export default function BookCard({book, onPress, onAddToCart}) {
 

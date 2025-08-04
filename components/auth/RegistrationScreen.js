@@ -16,7 +16,7 @@ export default function RegistrationScreen() {
 
 
     const login = () => {
-        fetch('http://192.168.0.143:8000/api/login/', {
+        fetch('https://bookworm.pythonanywhere.com/api/login/', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data)
@@ -41,7 +41,7 @@ export default function RegistrationScreen() {
     };
 
     const register = () => {
-        fetch('http://192.168.0.143:8000/api/register/', {
+        fetch('https://bookworm.pythonanywhere.com/api/register/', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data)

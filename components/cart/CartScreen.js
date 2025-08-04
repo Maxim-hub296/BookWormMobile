@@ -1,8 +1,8 @@
-import {View, Text, StyleSheet, Image, Alert, ScrollView, TouchableOpacity} from "react-native";
+import {Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useEffect, useState} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useNavigation} from "@react-navigation/native";
-
+import {Ionicons} from "@expo/vector-icons";
 
 export default function CartScreen() {
 
@@ -26,7 +26,7 @@ export default function CartScreen() {
             'Authorization': `Token ${token}`
         }
 
-        fetch('http://192.168.0.143:8000/api/cart', {
+        fetch('https://bookworm.pythonanywhere.com/api/cart', {
             method: 'GET',
             headers: headers
         })
@@ -56,7 +56,7 @@ export default function CartScreen() {
             headers['Authorization'] = `Token ${token}`;
         }
 
-        fetch('http://192.168.0.143:8000/api/auth-status/', {
+        fetch('https://bookworm.pythonanywhere.com/api/auth-status/', {
             method: 'GET',
             headers: headers
         })
@@ -72,6 +72,41 @@ export default function CartScreen() {
             .catch(error => {
                 console.error(`Ошибка: ${error}`);
             });
+    }
+
+    const removeFromCart = async (id) => {
+
+        const token = await AsyncStorage.getItem('authToken');
+
+
+        const headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+
+        if (token) {
+            headers['Authorization'] = `Token ${token}`;
+        }
+
+
+        const body = {
+            'book_id': id
+        }
+
+        fetch(`https://bookworm.pythonanywhere.com/api/cart-remove/`, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(body)
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`Ошибка удаления товара из корзины: ${res.status}`)
+                }
+                return getCartData()
+            })
+            .catch(err => {
+                console.error(err)
+            })
     }
 
 
@@ -127,6 +162,9 @@ export default function CartScreen() {
                         <Text style={styles.detail}>Цена за 1: {item.book.price}₽</Text>
                         <Text style={styles.total}>Итого: {item.total_price}₽</Text>
                     </View>
+                    <TouchableOpacity style={styles.deleteButton} onPress={() => removeFromCart(item.book.id)}>
+                        <Ionicons name={'trash-outline'} size={22} color={"#a33"}/>
+                    </TouchableOpacity>
                 </View>
             ))}
 
@@ -235,6 +273,16 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
     },
+    deleteButton: {
+        position: 'absolute',
+        right: 8,
+        top: '40%',
+        backgroundColor: '#ffe6e6',
+        padding: 6,
+        borderRadius: 20,
+        elevation: 2,
+    },
+
 });
 
 
