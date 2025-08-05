@@ -46,6 +46,7 @@ export default function AddCommentaryScreen({route}) {
         <TextInput
             style={styles.input}
             placeholder="Введите ваш комменатрий"
+            placeholderTextColor="#5c4033"
             onChangeText={setContent}
             value={content}
         />

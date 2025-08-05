@@ -46,6 +46,7 @@ export default function LoginScreen() {
             <TextInput
                 style={styles.input}
                 placeholder="Введите ваше имя"
+                placeholderTextColor="#5c4033"
                 onChangeText={(text) => setUserName(text)}
                 value={userName}
             />
@@ -53,6 +54,7 @@ export default function LoginScreen() {
             <TextInput
                 style={styles.input}
                 placeholder="Введите ваш пароль"
+                placeholderTextColor="#5c4033"
                 secureTextEntry
                 onChangeText={(text) => setUserPassword(text)}
                 value={userPassword}

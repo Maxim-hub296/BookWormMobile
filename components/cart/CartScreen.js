@@ -14,7 +14,7 @@ export default function CartScreen() {
             username: ''
         }
     )
-    const [cartData, setCartData] = useState()
+    const [cartData, setCartData] = useState([])
 
 
     const getCartData = async () => {
@@ -73,6 +73,7 @@ export default function CartScreen() {
                 console.error(`Ошибка: ${error}`);
             });
     }
+
 
     const removeFromCart = async (id) => {
 
@@ -133,7 +134,7 @@ export default function CartScreen() {
         }
     }, [authData.is_authenticated]) //А этот только при изменении переменной (но т.к checkAuth вызывается один раз то и здесь будет так же. Это совпадение :) )
 
-    if (!cartData || cartData.items.length === 0) {
+    if (!cartData?.items?.length) {
         return (
             <View style={styles.centered}>
                 <Text style={styles.empty}>Корзина пуста</Text>
@@ -143,47 +144,52 @@ export default function CartScreen() {
 
 
     return (
-        <ScrollView style={styles.container}>
-            <Text style={styles.header}>Корзина пользователя {authData.username}</Text>
+        <View style={styles.wrapper}>
+            <ScrollView style={styles.container}>
+                <Text style={styles.header}>Корзина пользователя {authData.username}</Text>
 
-            {cartData.items.map((item) => (
-                <View key={item.id} style={styles.card}>
-                    {item.book.image && (
-                        <Image
-                            source={{uri: item.book.image}}
-                            style={styles.image}
-                        />
-                    )}
-                    <View style={styles.info}>
-                        <Text style={styles.title}>{item.book.title}</Text>
-                        <Text style={styles.description} numberOfLines={2}>{item.book.description}</Text>
-                        <Text style={styles.detail}>Год: {item.book.year}</Text>
-                        <Text style={styles.detail}>Количество: {item.quantity}</Text>
-                        <Text style={styles.detail}>Цена за 1: {item.book.price}₽</Text>
-                        <View style={styles.totalRow}>
-                            <Text style={styles.total}>Итого: {item.total_price}₽</Text>
-                            <TouchableOpacity style={styles.deleteButton} onPress={() => removeFromCart(item.book.id)}>
-                                <Ionicons name={'trash-outline'} size={20} color={"#a33"}/>
-                            </TouchableOpacity>
+                {cartData.items.map((item) => (
+                    <View key={item.id} style={styles.card}>
+                        {item.book.image && (
+                            <Image
+                                source={{uri: item.book.image}}
+                                style={styles.image}
+                            />
+                        )}
+                        <View style={styles.info}>
+                            <Text style={styles.title}>{item.book.title}</Text>
+                            <Text style={styles.description} numberOfLines={2}>{item.book.description}</Text>
+                            <Text style={styles.detail}>Год: {item.book.year}</Text>
+
+                            <View style={styles.quantityRow}>
+
+                                <Text style={styles.detail}>Количество: {item.quantity}</Text>
+
+                            </View>
+
+                            <Text style={styles.detail}>Цена за 1: {item.book.price}₽</Text>
+                            <View style={styles.totalRow}>
+                                <Text style={styles.total}>Итого: {item.total_price}₽</Text>
+                                <TouchableOpacity style={styles.deleteButton}
+                                                  onPress={() => removeFromCart(item.book.id)}>
+                                    <Ionicons name={'trash-outline'} size={20} color={"#a33"}/>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
+                ))}
 
+                <View style={styles.summary}>
+                    <Text style={styles.summaryText}>Всего товаров: {cartData.total_count}</Text>
+                    <Text style={styles.summaryText}>Общая сумма: {cartData.total_sum}₽</Text>
                 </View>
-            ))}
-
-            <View style={styles.summary}>
-                <Text style={styles.summaryText}>Всего товаров: {cartData.total_count}</Text>
-                <Text style={styles.summaryText}>Общая сумма: {cartData.total_sum}₽</Text>
-            </View>
+            </ScrollView>
 
             <TouchableOpacity style={styles.orderButton} onPress={() => navigation.navigate('GoodBye')}>
-
                 <Text style={styles.orderButtonText}>Оформить заказ</Text>
             </TouchableOpacity>
-
-        </ScrollView>
-
-    )
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -263,14 +269,7 @@ const styles = StyleSheet.create({
         color: "#4a3f2c",
         marginBottom: 5,
     },
-    orderButton: {
-        backgroundColor: "#8a5d00",
-        paddingVertical: 12,
-        paddingHorizontal: 20,
-        borderRadius: 8,
-        marginTop: 15,
-        alignItems: 'center',
-    },
+
     orderButtonText: {
         color: "#fff8e8",
         fontSize: 16,
@@ -288,6 +287,38 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         elevation: 2,
     },
+    wrapper: {
+        flex: 1,
+        backgroundColor: "#f8f4e3",
+    },
+
+    quantityRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 6,
+    },
+
+    qButton: {
+        backgroundColor: '#dfd3bd',
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        borderRadius: 4,
+    },
+
+    qButtonText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#5c4b30',
+    },
+
+    orderButton: {
+        backgroundColor: "#8a5d00",
+        paddingVertical: 14,
+        alignItems: 'center',
+        borderTopWidth: 1,
+        borderColor: "#e6dcc9",
+    },
+
 });
 
 

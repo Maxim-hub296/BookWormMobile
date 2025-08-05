@@ -77,6 +77,7 @@ export default function RegistrationScreen() {
             <TextInput
                 style={styles.input}
                 placeholder="Введите ваше имя"
+                placeholderTextColor="#5c4033"
                 onChangeText={setUserName}
                 value={userName}
             />
@@ -84,6 +85,7 @@ export default function RegistrationScreen() {
             <TextInput
                 style={styles.input}
                 placeholder="Введите пароль"
+                placeholderTextColor="#5c4033"
                 secureTextEntry
                 onChangeText={setUserPassword}
                 value={userPassword}
